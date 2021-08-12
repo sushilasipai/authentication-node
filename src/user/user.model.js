@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const { ValidationMessage } = require("./user.constraints");
-
+const { validEmail, validStringLength } = require("../utils/validations");
 const UserSchema = new Schema({
   email: {
     type: String,
@@ -9,7 +9,7 @@ const UserSchema = new Schema({
     required: ValidationMessage.EMAIL_REQUIRED,
     validate: {
       validator: (email) => {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        return validEmail(email);
       },
       message: ValidationMessage.EMAIL_NOT_VALID,
     },
@@ -19,7 +19,7 @@ const UserSchema = new Schema({
     required: ValidationMessage.PASSWORD_REQUIRED,
     validate: {
       validator: (password) => {
-        return password.length > 7;
+        return validStringLength(password, 8);
       },
       message: ValidationMessage.PASSWORD_CHAR_ERROR,
     },

@@ -54,7 +54,12 @@ class UserService {
         throw error;
       }
 
-      return user;
+      return {
+        email: user.email,
+        firstName: user.firstName || "",
+        middleName: user.middleName || "",
+        lastName: user.lastName || "",
+      };
     } catch (error) {
       throw error;
     }

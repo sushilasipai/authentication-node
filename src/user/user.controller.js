@@ -18,6 +18,9 @@ const UserController = {
     }
     try {
       const savedUser = await UserService.createUser({ ...req.body });
+      /*
+       * TODO : Send email in future when the user is registered
+       */
       return res.status(200).json({
         message: "User registered Successfully",
         savedUser,
@@ -36,20 +39,12 @@ const UserController = {
   login: async (req, res) => {
     const { email, password } = req.body;
     const { errors } = loginValidation({ email, password });
-
     if (errors.length > 0) {
       return res.status(400).json({ type: "ValidationError", errors });
     }
-
     try {
       const user = await UserService.loginUser({ email, password });
-
-      return res.status(200).json({
-        email: user.email,
-        firstName: user.firstName || "",
-        middleName: user.middleName || "",
-        lastName: user.lastName || "",
-      });
+      return res.status(200).json({ ...user });
     } catch (error) {
       if (error.type === "AuthorizationError") {
         return res.status(401).json({ type: "AuthorizationError" });
