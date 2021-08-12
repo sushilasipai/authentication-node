@@ -1,59 +1,59 @@
-const { ValidationMessage } = require("./user.constraints");
+const {
+  registrationValidation,
+  loginValidation,
+} = require("./user.validation");
+const UserService = require("./index");
 const User = require("./user.model");
+const { Crypt } = require("./user.utils");
 
 const UserController = {
   register: async (req, res) => {
     const { email, password, firstName, middleName, lastName } = req.body;
-    if (!email || email === "") {
+    const { errors } = registrationValidation({ email, password });
+    if (errors.length > 0) {
       return res.status(400).json({
-        message: ValidationMessage.EMAIL_IS_REQUIRED,
         type: "ValidationError",
-      });
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return res.status(400).json({
-        message: ValidationMessage.EMAIL_NOT_VALID,
-        type: "ValidationError",
-      });
-    }
-
-    if (!password) {
-      return res.status(400).json({
-        message: ValidationMessage.PASSWORD_IS_REQUIRED,
-        type: "ValidationError",
-      });
-    }
-
-    if (password.length < 8) {
-      return res.status(400).json({
-        message: ValidationMessage.PASSWORD_CHAR_ERROR,
-        type: "ValidationError",
+        errors,
       });
     }
     try {
-      const user = await User.findOne({ email });
-      if (user) {
-        return res.status(400).json({
-          message: ValidationMessage.EMAIL_ALREADY_EXISTS,
-          type: "ValidationError",
-        });
-      }
-      const savedUser = await User.create({
-        email,
-        password,
-        firstName,
-        middleName,
-        lastName,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
-
+      const savedUser = await UserService.createUser({ ...req.body });
       return res.status(200).json({
         message: "User registered Successfully",
         savedUser,
       });
     } catch (error) {
-      console.log(JSON.stringify(error));
+      if (error.type === "ValidationError") {
+        return res.status(400).json({
+          type: "ValidationError",
+          message: error.message,
+        });
+      }
+      return res.status(500).json({ message: "server error" });
+    }
+  },
+
+  login: async (req, res) => {
+    const { email, password } = req.body;
+    const { errors } = loginValidation({ email, password });
+
+    if (errors.length > 0) {
+      return res.status(400).json({ type: "ValidationError", errors });
+    }
+
+    try {
+      const user = await UserService.loginUser({ email, password });
+
+      return res.status(200).json({
+        email: user.email,
+        firstName: user.firstName || "",
+        middleName: user.middleName || "",
+        lastName: user.lastName || "",
+      });
+    } catch (error) {
+      if (error.type === "AuthorizationError") {
+        return res.status(401).json({ type: "AuthorizationError" });
+      }
       return res.status(500).json({ message: "server error" });
     }
   },
