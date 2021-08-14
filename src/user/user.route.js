@@ -8,4 +8,6 @@ UserRouter.post("/login", UserController.login);
 
 UserRouter.post("/forgotpassword", UserController.forgotPassword);
 
+UserRouter.post("/resetpassword", UserController.resetPassword);
+
 module.exports = UserRouter;

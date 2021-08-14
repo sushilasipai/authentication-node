@@ -85,6 +85,29 @@ class UserService {
       throw error;
     }
   }
+
+  async resetPassword({ token, newPassword }) {
+    const hashedNewPassword = await this.Crypt.hashPassword(newPassword);
+    try {
+      const user = await this.UserModel.findOne({ passwordResetToken: token });
+
+      if (!user) {
+        let error = new Error();
+        error.type = "ValidationError";
+        error.errors = [{ message: ValidationMessage.TOKEN_MISMATCH }];
+        throw error;
+      }
+
+      const updatedUser = await this.UserModel.updateOne(
+        { passwordResetToken: user.passwordResetToken },
+        { password: hashedNewPassword }
+      );
+
+      return updatedUser;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = UserService;

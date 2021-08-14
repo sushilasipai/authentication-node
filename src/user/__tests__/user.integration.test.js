@@ -7,7 +7,7 @@ const faker = require("faker");
 const { ValidationMessage } = require("../user.constraints");
 const User = require("../user.model");
 const { Crypt } = require("../user.utils");
-
+const uuid = require("uuid");
 describe("user integration test", () => {
   let server;
 
@@ -279,6 +279,56 @@ describe("user integration test", () => {
         .expect(200);
 
       expect(response.body.savedUser).toHaveProperty("lastName", data.lastName);
+    });
+  });
+
+  describe("User password reset test", () => {
+    let passwordResetToken = uuid.v4();
+    beforeAll(async () => {
+      await User.updateOne({ email: user.email }, { passwordResetToken });
+    });
+
+    it("should throw password mismatch error if newpassword does not match confirmpassword", async () => {
+      const data = {
+        newPassword: "abc",
+        confirmPassword: "lfjdsl",
+      };
+
+      const response = await request(server)
+        .post("/api/user/resetpassword")
+        .send(data)
+        .expect(400);
+
+      expect(response.body.errors.length).toBe(2);
+    });
+
+    it("should throw token mismatch error if wrong token is passed", async () => {
+      const data = {
+        token: "sfsfs",
+        newPassword: "abcdefgh",
+        confirmPassword: "abcdefgh",
+      };
+
+      const response = await request(server)
+        .post("/api/user/resetpassword")
+        .send(data)
+        .expect(400);
+
+      expect(response.body.errors.length).toBe(1);
+      expect(response.body.type).toBe("ValidationError");
+    });
+
+    it("should return 200 if password successfully changed", async () => {
+      const data = {
+        token: passwordResetToken,
+        newPassword: "asdfghjkl",
+        confirmPassword: "asdfghjkl",
+      };
+
+      const response = await request(server)
+        .post("/api/user/resetpassword")
+        .send(data)
+        .expect(200);
     });
   });
 });

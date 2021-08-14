@@ -2,6 +2,7 @@ const {
   registrationValidation,
   loginValidation,
   forgotPasswordValidation,
+  resetPasswordValidaton,
 } = require("./user.validation");
 const UserService = require("./index");
 const User = require("./user.model");
@@ -74,6 +75,36 @@ const UserController = {
       return res
         .status(200)
         .json({ message: "", token: user.passwordResetToken });
+    } catch (error) {
+      if (error.type === "ValidationError") {
+        return res
+          .status(400)
+          .json({ type: "ValidationError", errors: error.errors });
+      }
+      return res.status(500).json({ message: "server error" });
+    }
+  },
+
+  resetPassword: async (req, res) => {
+    const { token, newPassword, confirmPassword } = req.body;
+    const { errors } = resetPasswordValidaton({
+      newPassword,
+      confirmPassword,
+    });
+
+    if (errors.length > 0) {
+      return res.status(400).json({
+        type: "ValidationError",
+        errors,
+      });
+    }
+
+    try {
+      const user = await UserService.resetPassword({ token, newPassword });
+
+      return res
+        .status(200)
+        .json({ message: "Password changed successfully." });
     } catch (error) {
       if (error.type === "ValidationError") {
         return res

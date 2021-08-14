@@ -1,6 +1,7 @@
 const sinon = require("sinon");
 const UserService = require("../user.service");
 const faker = require("faker");
+const { ValidationMessage } = require("../user.constraints");
 
 describe("user service test", () => {
   it("Should be defined", (done) => {
@@ -129,6 +130,84 @@ describe("user service test", () => {
         expect(error.type).toBe("ValidationError");
         expect(error.errors.length).toBe(1);
       }
+    });
+  });
+
+  describe("reset password test", () => {
+    let CryptMock;
+    let TokenGeneratorMock;
+
+    beforeEach((done) => {
+      CryptMock = {
+        hashPassword: sinon.spy(),
+      };
+
+      TokenGeneratorMock = {
+        generateUuidToken: sinon.spy(),
+      };
+
+      done();
+    });
+
+    it("should hash newpassword", async () => {
+      const UserMock = {
+        findOne: sinon.fake.returns(true),
+        updateOne: sinon.spy(),
+      };
+      const data = {
+        token: "1234556",
+        newPassword: faker.internet.password(),
+      };
+      let userService = new UserService(
+        UserMock,
+        CryptMock,
+        TokenGeneratorMock
+      );
+      await userService.resetPassword(data);
+      expect(CryptMock.hashPassword.calledOnce).toBeTruthy();
+    });
+
+    it("should return token mismatch error if not found in db", async () => {
+      const UserMock = {
+        findOne: sinon.fake.returns(null),
+        updateOne: sinon.spy(),
+      };
+      const data = {
+        token: "1234556",
+        newPassword: faker.internet.password(),
+      };
+      let userService = new UserService(
+        UserMock,
+        CryptMock,
+        TokenGeneratorMock
+      );
+      try {
+        await userService.resetPassword(data);
+      } catch (error) {
+        expect(error.errors.length).toBe(1);
+        expect(error.type).toBe("ValidationError");
+        expect(error.errors[0].message).toBe(ValidationMessage.TOKEN_MISMATCH);
+      }
+    });
+
+    it("should update password if token found in db", async () => {
+      const UserMock = {
+        findOne: sinon.fake.returns(true),
+        updateOne: sinon.spy(),
+      };
+      const data = {
+        token: "1234556",
+        newPassword: faker.internet.password(),
+      };
+      let userService = new UserService(
+        UserMock,
+        CryptMock,
+        TokenGeneratorMock
+      );
+
+      await userService.resetPassword(data);
+      expect(UserMock.updateOne.calledOnce).toBeTruthy();
+      expect(UserMock.updateOne.calledAfter(UserMock.findOne)).toBeTruthy();
     });
   });
 });

@@ -55,8 +55,27 @@ const forgotPasswordValidation = (email) => {
   return { errors };
 };
 
+const resetPasswordValidaton = ({ newPassword, confirmPassword }) => {
+  let errors = [];
+  if (!validStringLength(newPassword, 8)) {
+    const error = {
+      message: ValidationMessage.PASSWORD_CHAR_ERROR,
+    };
+    errors = [...errors, error];
+  }
+
+  if (newPassword !== confirmPassword) {
+    const error = {
+      message: ValidationMessage.PASSWORD_MISMATCH,
+    };
+    errors = [...errors, error];
+  }
+  return { errors };
+};
+
 module.exports = {
   registrationValidation,
   loginValidation: registrationValidation,
   forgotPasswordValidation,
+  resetPasswordValidaton,
 };

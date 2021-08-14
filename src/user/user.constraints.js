@@ -5,6 +5,8 @@ const ValidationMessage = {
   EMAIL_ALREADY_EXISTS: "Email already exists",
   PASSWORD_REQUIRED: "Password is required",
   PASSWORD_CHAR_ERROR: "Password must be of at least 8 characters.",
+  PASSWORD_MISMATCH: "Confirm Password does not match with new Password",
+  TOKEN_MISMATCH: "Invalid password reset link",
 };
 
 module.exports = { ValidationMessage };

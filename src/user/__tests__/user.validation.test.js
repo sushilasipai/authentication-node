@@ -1,4 +1,8 @@
-const { registrationValidation } = require("../user.validation");
+const {
+  registrationValidation,
+  forgotPasswordValidation,
+  resetPasswordValidaton,
+} = require("../user.validation");
 const { ValidationMessage } = require("../user.constraints");
 
 const faker = require("faker");
@@ -49,6 +53,70 @@ describe("user validation test", () => {
         password: faker.internet.password(),
       };
       const { errors } = registrationValidation(data);
+      expect(errors.length).toBe(0);
+      done();
+    });
+  });
+
+  describe("forgot password validation", () => {
+    it("should return email not valid error if email is of invalid format", (done) => {
+      const data = {
+        email: "abcd.com",
+      };
+
+      const { errors } = forgotPasswordValidation(data.email);
+      expect(errors.length).toBe(1);
+      done();
+    });
+
+    it("should return no error if email is of valid format", (done) => {
+      const data = {
+        email: "abcd@gmail.com",
+      };
+
+      const { errors } = forgotPasswordValidation(data.email);
+      expect(errors.length).toBe(0);
+      done();
+    });
+  });
+
+  describe("reset password validation", () => {
+    it("should return length error if new password is not of required length", (done) => {
+      const data = {
+        newPassword: "abcd",
+        confirmPassword: "abcd",
+      };
+      const { errors } = resetPasswordValidaton(data);
+      expect(errors.length).toBe(1);
+      done();
+    });
+
+    it("should return password mismatch error if confirm password and new password is not same", (done) => {
+      const data = {
+        newPassword: "abcdefgh",
+        confirmPassword: "abcddfdh",
+      };
+      const { errors } = resetPasswordValidaton(data);
+      expect(errors.length).toBe(1);
+      done();
+    });
+
+    it("should return password mismatch and length error if confirm password and new password is not same and newpassword is not of required length", (done) => {
+      const data = {
+        newPassword: "abcd",
+        confirmPassword: "abcddfdh",
+      };
+      const { errors } = resetPasswordValidaton(data);
+      expect(errors.length).toBe(2);
+      done();
+    });
+
+    it("should return no error if newpassword and confirmpassword is same", (done) => {
+      const data = {
+        newPassword: "abcddfdh",
+        confirmPassword: "abcddfdh",
+      };
+      const { errors } = resetPasswordValidaton(data);
       expect(errors.length).toBe(0);
       done();
     });
