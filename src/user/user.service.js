@@ -69,6 +69,7 @@ class UserService {
   async forgotPassword(email) {
     try {
       const user = await this.UserModel.findOne({ email });
+
       if (!user) {
         let error = new Error();
         error.type = "ValidationError";
@@ -80,7 +81,7 @@ class UserService {
 
       await this.UserModel.updateOne({ email }, { passwordResetToken: token });
 
-      return { ...user, passwordResetToken: token };
+      return { ...JSON.parse(JSON.stringify(user)), passwordResetToken: token };
     } catch (error) {
       throw error;
     }

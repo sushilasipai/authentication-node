@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1628953611910" clover="3.2.0">
-  <project timestamp="1628953611911" name="All files">
-    <metrics statements="199" coveredstatements="195" conditionals="50" coveredconditionals="46" methods="22" coveredmethods="22" elements="271" coveredelements="263" complexity="0" loc="199" ncloc="199" packages="4" files="14" classes="14"/>
+<coverage generated="1628959433856" clover="3.2.0">
+  <project timestamp="1628959433857" name="All files">
+    <metrics statements="213" coveredstatements="205" conditionals="52" coveredconditionals="47" methods="24" coveredmethods="23" elements="289" coveredelements="275" complexity="0" loc="213" ncloc="213" packages="4" files="15" classes="15"/>
     <package name="config">
       <metrics statements="15" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="app.config.js" path="/home/sushila/projects/authentication-node/src/config/app.config.js">
@@ -24,9 +24,9 @@
       </file>
       <file name="envVars.config.js" path="/home/sushila/projects/authentication-node/src/config/envVars.config.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="2" type="stmt"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
       </file>
     </package>
     <package name="routes">
@@ -43,7 +43,7 @@
       </file>
     </package>
     <package name="user">
-      <metrics statements="164" coveredstatements="160" conditionals="46" coveredconditionals="42" methods="16" coveredmethods="16"/>
+      <metrics statements="169" coveredstatements="165" conditionals="46" coveredconditionals="42" methods="16" coveredmethods="16"/>
       <file name="index.js" path="/home/sushila/projects/authentication-node/src/user/index.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="2" type="stmt"/>
@@ -58,7 +58,7 @@
         <line num="12" count="4" type="stmt"/>
       </file>
       <file name="user.controller.js" path="/home/sushila/projects/authentication-node/src/user/user.controller.js">
-        <metrics statements="49" coveredstatements="45" conditionals="16" coveredconditionals="12" methods="4" coveredmethods="4"/>
+        <metrics statements="54" coveredstatements="50" conditionals="16" coveredconditionals="12" methods="4" coveredmethods="4"/>
         <line num="6" count="2" type="stmt"/>
         <line num="7" count="2" type="stmt"/>
         <line num="8" count="2" type="stmt"/>
@@ -66,48 +66,53 @@
         <line num="10" count="2" type="stmt"/>
         <line num="11" count="2" type="stmt"/>
         <line num="12" count="2" type="stmt"/>
-        <line num="14" count="2" type="stmt"/>
-        <line num="16" count="9" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="15" count="2" type="stmt"/>
         <line num="17" count="9" type="stmt"/>
-        <line num="18" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="19" count="4" type="stmt"/>
-        <line num="24" count="5" type="stmt"/>
+        <line num="18" count="9" type="stmt"/>
+        <line num="19" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="4" type="stmt"/>
         <line num="25" count="5" type="stmt"/>
-        <line num="29" count="4" type="stmt"/>
-        <line num="34" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="35" count="1" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="45" count="4" type="stmt"/>
-        <line num="46" count="4" type="stmt"/>
-        <line num="47" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="48" count="1" type="stmt"/>
-        <line num="50" count="3" type="stmt"/>
-        <line num="51" count="3" type="stmt"/>
-        <line num="52" count="1" type="stmt"/>
-        <line num="54" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="55" count="2" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="62" count="3" type="stmt"/>
-        <line num="63" count="3" type="stmt"/>
-        <line num="65" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="66" count="1" type="stmt"/>
-        <line num="72" count="2" type="stmt"/>
-        <line num="73" count="2" type="stmt"/>
-        <line num="75" count="1" type="stmt"/>
-        <line num="79" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="26" count="5" type="stmt"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="33" count="4" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="40" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="51" count="4" type="stmt"/>
+        <line num="52" count="4" type="stmt"/>
+        <line num="53" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="56" count="3" type="stmt"/>
+        <line num="57" count="3" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="60" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="61" count="2" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="68" count="3" type="stmt"/>
+        <line num="69" count="3" type="stmt"/>
+        <line num="71" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="72" count="1" type="stmt"/>
+        <line num="78" count="2" type="stmt"/>
+        <line num="79" count="2" type="stmt"/>
         <line num="80" count="1" type="stmt"/>
-        <line num="84" count="0" type="stmt"/>
-        <line num="89" count="3" type="stmt"/>
-        <line num="90" count="3" type="stmt"/>
-        <line num="95" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="96" count="1" type="stmt"/>
-        <line num="102" count="2" type="stmt"/>
-        <line num="103" count="2" type="stmt"/>
-        <line num="105" count="1" type="stmt"/>
-        <line num="109" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="110" count="1" type="stmt"/>
-        <line num="114" count="0" type="stmt"/>
-        <line num="119" count="2" type="stmt"/>
+        <line num="86" count="1" type="stmt"/>
+        <line num="88" count="1" type="stmt"/>
+        <line num="92" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="93" count="1" type="stmt"/>
+        <line num="97" count="0" type="stmt"/>
+        <line num="102" count="3" type="stmt"/>
+        <line num="103" count="3" type="stmt"/>
+        <line num="108" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="109" count="1" type="stmt"/>
+        <line num="115" count="2" type="stmt"/>
+        <line num="116" count="2" type="stmt"/>
+        <line num="118" count="1" type="stmt"/>
+        <line num="122" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="123" count="1" type="stmt"/>
+        <line num="127" count="0" type="stmt"/>
+        <line num="132" count="2" type="stmt"/>
       </file>
       <file name="user.model.js" path="/home/sushila/projects/authentication-node/src/user/user.model.js">
         <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
@@ -164,27 +169,27 @@
         <line num="65" count="2" type="stmt"/>
         <line num="70" count="4" type="stmt"/>
         <line num="71" count="4" type="stmt"/>
-        <line num="72" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="73" count="2" type="stmt"/>
+        <line num="73" count="4" type="cond" truecount="2" falsecount="0"/>
         <line num="74" count="2" type="stmt"/>
         <line num="75" count="2" type="stmt"/>
         <line num="76" count="2" type="stmt"/>
-        <line num="79" count="2" type="stmt"/>
-        <line num="81" count="2" type="stmt"/>
-        <line num="83" count="2" type="stmt"/>
-        <line num="85" count="2" type="stmt"/>
-        <line num="90" count="5" type="stmt"/>
+        <line num="77" count="2" type="stmt"/>
+        <line num="80" count="2" type="stmt"/>
+        <line num="82" count="2" type="stmt"/>
+        <line num="84" count="2" type="stmt"/>
+        <line num="86" count="2" type="stmt"/>
         <line num="91" count="5" type="stmt"/>
         <line num="92" count="5" type="stmt"/>
-        <line num="94" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="95" count="2" type="stmt"/>
+        <line num="93" count="5" type="stmt"/>
+        <line num="95" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="96" count="2" type="stmt"/>
         <line num="97" count="2" type="stmt"/>
         <line num="98" count="2" type="stmt"/>
-        <line num="101" count="3" type="stmt"/>
-        <line num="106" count="3" type="stmt"/>
-        <line num="108" count="2" type="stmt"/>
-        <line num="113" count="3" type="stmt"/>
+        <line num="99" count="2" type="stmt"/>
+        <line num="102" count="3" type="stmt"/>
+        <line num="107" count="3" type="stmt"/>
+        <line num="109" count="2" type="stmt"/>
+        <line num="114" count="3" type="stmt"/>
       </file>
       <file name="user.utils.js" path="/home/sushila/projects/authentication-node/src/user/user.utils.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
@@ -234,7 +239,19 @@
       </file>
     </package>
     <package name="utils">
-      <metrics statements="13" coveredstatements="13" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
+      <metrics statements="22" coveredstatements="18" conditionals="6" coveredconditionals="5" methods="6" coveredmethods="5"/>
+      <file name="mailer.js" path="/home/sushila/projects/authentication-node/src/utils/mailer.js">
+        <metrics statements="9" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="5" count="5" type="cond" truecount="1" falsecount="1"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
+      </file>
       <file name="token.js" path="/home/sushila/projects/authentication-node/src/utils/token.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>

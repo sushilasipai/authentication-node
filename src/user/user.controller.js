@@ -10,6 +10,7 @@ const { Crypt } = require("./user.utils");
 const { validEmail } = require("../utils/validations");
 const { ValidationMessage } = require("./user.constraints");
 const uuid = require("uuid");
+const Mailer = require("../utils/mailer");
 
 const UserController = {
   register: async (req, res) => {
@@ -23,9 +24,14 @@ const UserController = {
     }
     try {
       const savedUser = await UserService.createUser({ ...req.body });
-      /*
-       * TODO : Send email in future when the user is registered
-       */
+      const emailPackage = {
+        toEmail: savedUser.email,
+        subject: "User created successfully",
+        body: `Dear ${savedUser.firstName}, Thank you for joining our platform`,
+      };
+
+      Mailer.sendEmail(emailPackage);
+
       return res.status(200).json({
         message: "User registered Successfully",
         savedUser,
@@ -71,6 +77,13 @@ const UserController = {
 
     try {
       const user = await UserService.forgotPassword(email);
+      const emailPackage = {
+        toEmail: user.email,
+        subject: "Password change token",
+        body: `Dear ${user.firstName}, Please use token ${user.passwordResetToken} to change your password.`,
+      };
+
+      Mailer.sendEmail(emailPackage);
 
       return res
         .status(200)

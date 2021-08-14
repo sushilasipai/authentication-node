@@ -184,7 +184,7 @@ describe("user integration test", () => {
 
     it("should return email duplicate error when duplicate email is passed", async () => {
       const data = {
-        email: "sipaisushila@gmail.com",
+        email: user.email,
         password: faker.internet.password(),
       };
 
