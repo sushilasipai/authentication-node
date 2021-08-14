@@ -59,6 +59,10 @@ const UserSchema = new Schema({
     ref: "User",
     required: false,
   },
+  passwordResetToken: {
+    type: String,
+    required: false,
+  },
 });
 
 const User = mongoose.model("User", UserSchema);

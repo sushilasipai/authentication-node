@@ -6,4 +6,6 @@ UserRouter.post("/register", UserController.register);
 
 UserRouter.post("/login", UserController.login);
 
+UserRouter.post("/forgotpassword", UserController.forgotPassword);
+
 module.exports = UserRouter;

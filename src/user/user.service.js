@@ -1,9 +1,10 @@
 const { ValidationMessage } = require("./user.constraints");
 
 class UserService {
-  constructor(UserModel, Crypt) {
+  constructor(UserModel, Crypt, TokenGenerator) {
     this.UserModel = UserModel;
     this.Crypt = Crypt;
+    this.TokenGenerator = TokenGenerator;
   }
 
   async createUser({ ...data }) {
@@ -60,6 +61,26 @@ class UserService {
         middleName: user.middleName || "",
         lastName: user.lastName || "",
       };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async forgotPassword(email) {
+    try {
+      const user = await this.UserModel.findOne({ email });
+      if (!user) {
+        let error = new Error();
+        error.type = "ValidationError";
+        error.errors = [{ message: ValidationMessage.EMAIL_NOT_REGISTERED }];
+        throw error;
+      }
+
+      const token = this.TokenGenerator.generateUuidToken();
+
+      await this.UserModel.updateOne({ email }, { passwordResetToken: token });
+
+      return { ...user, passwordResetToken: token };
     } catch (error) {
       throw error;
     }

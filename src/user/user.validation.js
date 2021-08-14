@@ -41,7 +41,22 @@ const registrationValidation = ({ email, password }) => {
   };
 };
 
+const forgotPasswordValidation = (email) => {
+  let errors = [];
+
+  if (!validEmail(email)) {
+    const error = {
+      message: ValidationMessage.EMAIL_NOT_VALID,
+    };
+
+    errors = [...errors, error];
+  }
+
+  return { errors };
+};
+
 module.exports = {
   registrationValidation,
   loginValidation: registrationValidation,
+  forgotPasswordValidation,
 };

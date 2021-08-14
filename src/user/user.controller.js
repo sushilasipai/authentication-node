@@ -1,10 +1,14 @@
 const {
   registrationValidation,
   loginValidation,
+  forgotPasswordValidation,
 } = require("./user.validation");
 const UserService = require("./index");
 const User = require("./user.model");
 const { Crypt } = require("./user.utils");
+const { validEmail } = require("../utils/validations");
+const { ValidationMessage } = require("./user.constraints");
+const uuid = require("uuid");
 
 const UserController = {
   register: async (req, res) => {
@@ -48,6 +52,33 @@ const UserController = {
     } catch (error) {
       if (error.type === "AuthorizationError") {
         return res.status(401).json({ type: "AuthorizationError" });
+      }
+      return res.status(500).json({ message: "server error" });
+    }
+  },
+
+  forgotPassword: async (req, res) => {
+    const { email } = req.body;
+    const { errors } = forgotPasswordValidation(email);
+
+    if (errors.length > 0) {
+      return res.status(400).json({
+        type: "ValidationError",
+        errors,
+      });
+    }
+
+    try {
+      const user = await UserService.forgotPassword(email);
+
+      return res
+        .status(200)
+        .json({ message: "", token: user.passwordResetToken });
+    } catch (error) {
+      if (error.type === "ValidationError") {
+        return res
+          .status(400)
+          .json({ type: "ValidationError", errors: error.errors });
       }
       return res.status(500).json({ message: "server error" });
     }

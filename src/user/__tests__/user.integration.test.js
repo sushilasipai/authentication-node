@@ -40,6 +40,49 @@ describe("user integration test", () => {
     await server.close();
   });
 
+  describe("User password reset token generation test", () => {
+    it("should throw validation email error if invalid email is passed", async () => {
+      const data = {
+        email: "",
+      };
+
+      const response = await request(server)
+        .post("/api/user/forgotpassword")
+        .send(data)
+        .expect(400);
+
+      expect(response.body.type).toBe("ValidationError");
+      expect(response.body.errors.length).toBe(1);
+    });
+
+    it("should throw email not registered email if email not registered in db", async () => {
+      const data = {
+        email: "abcd@gmail.com",
+      };
+
+      const response = await request(server)
+        .post("/api/user/forgotpassword")
+        .send(data)
+        .expect(400);
+
+      expect(response.body.type).toBe("ValidationError");
+      expect(response.body.errors.length).toBe(1);
+    });
+
+    it("should throw token if email found on db", async () => {
+      const data = {
+        email: user.email,
+      };
+
+      const response = await request(server)
+        .post("/api/user/forgotpassword")
+        .send(data)
+        .expect(200);
+
+      expect(response.body).toHaveProperty("token");
+    });
+  });
+
   describe("User login test", () => {
     it("should throw ValidationError if email and password is not sent", async () => {
       const data = {
