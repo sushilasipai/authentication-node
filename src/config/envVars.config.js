@@ -10,6 +10,7 @@ const config = {
   smtp_user: process.env.SMTP_USER,
   smtp_password: process.env.SMTP_PASSWORD,
   from_user_email: process.env.FROM_USER_EMAIL,
+  jwt_private_key: process.env.JWT_PRIVATE_KEY,
 };
 
 module.exports = config;

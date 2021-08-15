@@ -13,6 +13,12 @@ const uuid = require("uuid");
 const Mailer = require("../utils/mailer");
 
 const UserController = {
+  me: async (req, res) => {
+    const { user } = req;
+    return res.status(200).json({
+      user,
+    });
+  },
   register: async (req, res) => {
     const { email, password, firstName, middleName, lastName } = req.body;
     const { errors } = registrationValidation({ email, password });
@@ -54,8 +60,8 @@ const UserController = {
       return res.status(400).json({ type: "ValidationError", errors });
     }
     try {
-      const user = await UserService.loginUser({ email, password });
-      return res.status(200).json({ ...user });
+      const { token, user } = await UserService.loginUser({ email, password });
+      return res.status(200).json({ token, user });
     } catch (error) {
       if (error.type === "AuthorizationError") {
         return res.status(401).json({ type: "AuthorizationError" });

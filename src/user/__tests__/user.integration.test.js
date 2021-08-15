@@ -8,6 +8,7 @@ const { ValidationMessage } = require("../user.constraints");
 const User = require("../user.model");
 const { Crypt } = require("../user.utils");
 const uuid = require("uuid");
+const TokenGenerator = require("../../utils/token");
 describe("user integration test", () => {
   let server;
 
@@ -25,7 +26,7 @@ describe("user integration test", () => {
       updatedAt: new Date(),
     };
     //Create a test user
-    await User.create({ ...user });
+    user = await User.create({ ...user });
   });
 
   afterAll(async () => {
@@ -134,7 +135,8 @@ describe("user integration test", () => {
         .send(data)
         .expect(200);
 
-      expect(response.body).toHaveProperty("email", data.email);
+      expect(response.body.user).toHaveProperty("email", data.email);
+      expect(response.body.token).toBeDefined();
     });
   });
 
@@ -329,6 +331,48 @@ describe("user integration test", () => {
         .post("/api/user/resetpassword")
         .send(data)
         .expect(200);
+    });
+  });
+
+  describe("me test", () => {
+    //Generate JWT
+    let token;
+    let expiredToken;
+    beforeAll(() => {
+      token = TokenGenerator.generateJwtToken(user._id);
+      expiredToken = TokenGenerator.backDateToken(user._id, 30);
+    });
+
+    it("Should throw Authentication error if token is expired", async () => {
+      const response = await request(server)
+        .get("/api/user/me")
+        .set("Authorization", `Bearer ${expiredToken}`)
+        .expect(401);
+      expect(response.body.type).toBe("AuthenticationError");
+      expect(response.body.message).toBe("Token Expired");
+    });
+
+    it("Should throw Authentication error if token is not passed", async () => {
+      const response = await request(server).get("/api/user/me").expect(401);
+      expect(response.body.type).toBe("AuthenticationError");
+      expect(response.body.message).toBe("Something went wrong!!");
+    });
+
+    it("Should throw Authentication error if wrong token is passed", async () => {
+      const response = await request(server)
+        .get("/api/user/me")
+        .set("Authorization", "Bearer fsdfdsvdsffsd")
+        .expect(401);
+      expect(response.body.type).toBe("AuthenticationError");
+      expect(response.body.message).toBe("Something went wrong!!");
+    });
+
+    it("Should throw no error if correct token is passed", async () => {
+      const response = await request(server)
+        .get("/api/user/me")
+        .set("Authorization", `Bearer ${token}`)
+        .expect(200);
+      expect(response.body).toHaveProperty("user");
     });
   });
 });
