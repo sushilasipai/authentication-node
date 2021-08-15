@@ -61,9 +61,9 @@ class UserService {
         token,
         user: {
           email: user.email,
-          firstName: user.firstName || "",
-          middleName: user.middleName || "",
-          lastName: user.lastName || "",
+          firstName: user.firstName ?? "",
+          middleName: user.middleName ?? "",
+          lastName: user.lastName ?? "",
         },
       };
     } catch (error) {

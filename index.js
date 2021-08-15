@@ -10,6 +10,6 @@ db.connectToDB(envVars.mongo_uri)
     console.log(error);
   });
 
-app.listen(envVars.port || 3000, () => {
-  console.log("Server started at", envVars.port || 3000);
+app.listen(envVars.port ?? 3000, () => {
+  console.log("Server started at", envVars.port ?? 3000);
 });

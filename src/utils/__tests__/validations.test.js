@@ -2,6 +2,7 @@ const {
   validEmail,
   validString,
   validStringLength,
+  validDate,
 } = require("../validations");
 
 describe("validation test", () => {
@@ -62,6 +63,18 @@ describe("validation test", () => {
 
     it("should return false if string is of invalid lenth", (done) => {
       expect(validStringLength("dsfjdsldsl", 17)).toBeFalsy();
+      done();
+    });
+  });
+
+  describe("valid date test", () => {
+    it("should return false if date format is not valid", (done) => {
+      expect(validDate(new Date("02-03-333333"))).toBeFalsy();
+      done();
+    });
+
+    it("should return true if date format is valid", (done) => {
+      expect(validDate(new Date("2029-04-06"))).toBeTruthy();
       done();
     });
   });

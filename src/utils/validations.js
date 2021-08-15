@@ -13,8 +13,13 @@ const validStringLength = (str, len) => {
   return str.length >= len;
 };
 
+const validDate = (date) => {
+  return date instanceof Date && !isNaN(date);
+};
+
 module.exports = {
   validEmail,
   validString,
   validStringLength,
+  validDate,
 };

@@ -1,5 +1,6 @@
 const express = require("express");
 const userRouter = require("../user/user.route");
+const articleRouter = require("../article/article.route");
 const router = express.Router();
 
 router.get("/statuscheck", (req, res) => {
@@ -7,5 +8,7 @@ router.get("/statuscheck", (req, res) => {
 });
 
 router.use("/user", userRouter);
+
+router.use("/article", articleRouter);
 
 module.exports = router;
