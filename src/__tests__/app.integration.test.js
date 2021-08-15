@@ -20,5 +20,9 @@ describe("app integration test", () => {
     it("returns 200", async () => {
       await request(server).get("/api/statuscheck").expect(200);
     });
+
+    it("returns 404 if route not found", async () => {
+      await request(server).get("/404").expect(404);
+    });
   });
 });
