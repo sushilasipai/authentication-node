@@ -1,3 +1,5 @@
+const ValidationMessage = require("./article.constraints");
+
 class ArticleService {
   constructor(Article) {
     this.Article = Article;
@@ -16,6 +18,15 @@ class ArticleService {
     try {
       let articles = await this.Article.find({});
       return articles;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getArticleById(id) {
+    try {
+      let article = await this.Article.findOne({ _id: id });
+      return article;
     } catch (error) {
       throw error;
     }

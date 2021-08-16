@@ -46,4 +46,26 @@ describe("article service test", () => {
       expect(articles).toBeDefined();
     });
   });
+
+  describe("get article by id test", () => {
+    it("should return null if article with the id is not found", async () => {
+      const ArticleMock = {
+        findOne: sinon.fake.returns(null),
+      };
+
+      let articleService = new ArticleService(ArticleMock);
+      const article = await articleService.getArticleById("dsfsdfa");
+      expect(ArticleMock.findOne.calledOnce).toBeTruthy();
+      expect(article).toBe(null);
+    });
+    it("should return data if article with the id is  found", async () => {
+      const ArticleMock = {
+        findOne: sinon.fake.returns({ title: "Abc" }),
+      };
+
+      let articleService = new ArticleService(ArticleMock);
+      const article = await articleService.getArticleById("123");
+      expect(ArticleMock.findOne.calledOnce).toBeTruthy();
+    });
+  });
 });

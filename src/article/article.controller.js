@@ -44,6 +44,21 @@ const ArticleController = {
       return res.status(400).json({ message: "server error" });
     }
   },
+
+  getArticleById: async (req, res) => {
+    const { id } = req.params;
+    const { errors } = await ArticleValidation.getArticleById(id);
+
+    if (errors.length > 0) {
+      return res.status(400).json({ type: "ValidationError", errors });
+    }
+    try {
+      const article = await ArticleService.getArticleById(id);
+      return res.status(200).json({ article });
+    } catch (error) {
+      return res.status(400).json({ message: "server error" });
+    }
+  },
 };
 
 module.exports = ArticleController;

@@ -69,4 +69,28 @@ describe("article validation test", () => {
       done();
     });
   });
+
+  describe("get article by id", () => {
+    it("should return invalid id error if id is not passed", (done) => {
+      const { errors } = ArticleValidation.getArticleById("");
+      expect(errors.length).toBe(2);
+      expect(errors[0].message).toBe(articleValidationMsg.ID_NOT_VALID);
+      expect(errors[1].message).toBe(articleValidationMsg.ID_NOT_VALID);
+      done();
+    });
+
+    it("should return invalid id error if invalid id is passed", (done) => {
+      const { errors } = ArticleValidation.getArticleById("dsfdfs");
+      expect(errors.length).toBe(1);
+      expect(errors[0].message).toBe(articleValidationMsg.ID_NOT_VALID);
+      done();
+    });
+
+    it("should return invalid id error if invalid id is passed", (done) => {
+      const id = mongoose.Types.ObjectId();
+      const { errors } = ArticleValidation.getArticleById(id);
+      expect(errors.length).toBe(0);
+      done();
+    });
+  });
 });

@@ -41,6 +41,26 @@ const ArticleValidation = {
 
     return { errors };
   },
+
+  getArticleById: (id) => {
+    let errors = [];
+
+    if (!ValidationCheck.validString(id)) {
+      const error = {
+        message: articleValidationMsg.ID_NOT_VALID,
+      };
+      errors = [...errors, error];
+    }
+
+    if (!ValidationCheck.validId(id)) {
+      const error = {
+        message: articleValidationMsg.ID_NOT_VALID,
+      };
+      errors = [...errors, error];
+    }
+
+    return { errors };
+  },
 };
 
 module.exports = ArticleValidation;

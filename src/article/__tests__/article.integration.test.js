@@ -7,7 +7,7 @@ const { Crypt } = require("../../user/user.utils");
 const User = require("../../user/user.model");
 const mongoose = require("mongoose");
 const TokenGenerator = require("../../utils/token");
-
+const Article = require("../article.model");
 describe("article integration test", () => {
   let server;
   let jwt;
@@ -41,6 +41,9 @@ describe("article integration test", () => {
   });
 
   describe("create article test", () => {
+    afterAll(async () => {
+      await Article.deleteMany({});
+    });
     it("should throw error if valid article data is not passed", async () => {
       const article = {};
 
@@ -71,20 +74,77 @@ describe("article integration test", () => {
   });
 
   describe("get all articles test", () => {
-    /*it("should return emtpy array if no data is found", async () => {
+    afterAll(async () => {
+      await Article.deleteMany({});
+    });
+    it("should return emtpy array if no data is found", async () => {
       const response = await request(server).get("/api/article").expect(200);
       expect(response.body).toHaveProperty("articles");
       expect(response.body.articles.length).toBe(0);
-    });*/
+    });
 
     it("should return all articles found", async () => {
+      const article = {
+        title: faker.lorem.text(),
+        shortDescription: faker.lorem.sentence(),
+        body: faker.lorem.paragraphs(),
+        author: mongoose.Types.ObjectId(),
+        publishDate: new Date(),
+      };
+      await Article.create({ ...article });
       const response = await request(server).get("/api/article").expect(200);
       expect(response.body).toHaveProperty("articles");
+      expect(response.body.articles.length).toBe(1);
       expect(response.body.articles[0]).toHaveProperty("title");
       expect(response.body.articles[0]).toHaveProperty("shortDescription");
       expect(response.body.articles[0]).toHaveProperty("body");
       expect(response.body.articles[0]).toHaveProperty("author");
       expect(response.body.articles[0]).toHaveProperty("publishDate");
+    });
+  });
+
+  describe("get  article by id test", () => {
+    afterAll(async () => {
+      await Article.deleteMany({});
+    });
+    it("should return 400 if id is not valid", async () => {
+      await request(server).get("/api/article/1").expect(400);
+    });
+
+    it("should return null if id is valid and article is not found", async () => {
+      const id = mongoose.Types.ObjectId();
+      const response = await request(server)
+        .get("/api/article/" + id)
+        .expect(200);
+      expect(response.body).toHaveProperty("article", null);
+    });
+
+    it("should return article with that id if  found", async () => {
+      const article = {
+        title: faker.lorem.text(),
+        shortDescription: faker.lorem.sentence(),
+        body: faker.lorem.paragraphs(),
+        author: mongoose.Types.ObjectId(),
+        publishDate: new Date(),
+      };
+      const createdArticle = await Article.create({ ...article });
+      const response = await request(server)
+        .get(`/api/article/${createdArticle._id}`)
+        .expect(200);
+      expect(response.body).toHaveProperty("article");
+      expect(response.body.article).toHaveProperty("title", article.title);
+      expect(response.body.article).toHaveProperty(
+        "shortDescription",
+        article.shortDescription
+      );
+      expect(response.body.article).toHaveProperty("body", article.body);
+      expect(response.body.article).toHaveProperty(
+        "author",
+        article.author.toString()
+      );
+      expect(response.body.article).toHaveProperty("publishDate");
+      expect(response.body.article).toHaveProperty("publishDate");
+      expect(response.body.article).toHaveProperty("_id");
     });
   });
 });

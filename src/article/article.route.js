@@ -10,4 +10,6 @@ articleRouter.post(
 
 articleRouter.get("/", ArticleController.getAllArticles);
 
+articleRouter.get("/:id", ArticleController.getArticleById);
+
 module.exports = articleRouter;

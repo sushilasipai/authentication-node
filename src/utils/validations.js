@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const validString = (str) => {
   if (!str || str === "") {
     return false;
@@ -17,9 +19,14 @@ const validDate = (date) => {
   return date instanceof Date && !isNaN(date);
 };
 
+const validId = (id) => {
+  return mongoose.Types.ObjectId.isValid(id);
+};
+
 module.exports = {
   validEmail,
   validString,
   validStringLength,
   validDate,
+  validId,
 };
