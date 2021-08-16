@@ -34,6 +34,16 @@ const ArticleController = {
       return res.status(400).json({ message: "server error" });
     }
   },
+
+  getAllArticles: async (req, res) => {
+    try {
+      const articles = await ArticleService.getAllArticles();
+
+      return res.status(200).json({ articles });
+    } catch (error) {
+      return res.status(400).json({ message: "server error" });
+    }
+  },
 };
 
 module.exports = ArticleController;

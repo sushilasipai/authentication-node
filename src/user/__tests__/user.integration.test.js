@@ -58,7 +58,7 @@ describe("user integration test", () => {
 
     it("should throw email not registered email if email not registered in db", async () => {
       const data = {
-        email: "abcd@gmail.com",
+        email: "dslfjdsljfl@gmail.com",
       };
 
       const response = await request(server)

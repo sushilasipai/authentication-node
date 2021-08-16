@@ -8,4 +8,6 @@ articleRouter.post(
   ArticleController.createArticle
 );
 
+articleRouter.get("/", ArticleController.getAllArticles);
+
 module.exports = articleRouter;

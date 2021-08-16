@@ -69,4 +69,22 @@ describe("article integration test", () => {
       expect(response.body).toHaveProperty("article");
     });
   });
+
+  describe("get all articles test", () => {
+    /*it("should return emtpy array if no data is found", async () => {
+      const response = await request(server).get("/api/article").expect(200);
+      expect(response.body).toHaveProperty("articles");
+      expect(response.body.articles.length).toBe(0);
+    });*/
+
+    it("should return all articles found", async () => {
+      const response = await request(server).get("/api/article").expect(200);
+      expect(response.body).toHaveProperty("articles");
+      expect(response.body.articles[0]).toHaveProperty("title");
+      expect(response.body.articles[0]).toHaveProperty("shortDescription");
+      expect(response.body.articles[0]).toHaveProperty("body");
+      expect(response.body.articles[0]).toHaveProperty("author");
+      expect(response.body.articles[0]).toHaveProperty("publishDate");
+    });
+  });
 });

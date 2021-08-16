@@ -11,6 +11,15 @@ class ArticleService {
       throw error;
     }
   }
+
+  async getAllArticles() {
+    try {
+      let articles = await this.Article.find({});
+      return articles;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = ArticleService;

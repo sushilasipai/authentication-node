@@ -20,4 +20,30 @@ describe("article service test", () => {
       expect(ArticleMock.create.calledOnce).toBeTruthy();
     });
   });
+
+  describe("get all articles test", () => {
+    it("should return null array if no data is found", async () => {
+      const ArticleMock = {
+        find: sinon.fake.returns(null),
+      };
+
+      let articleService = new ArticleService(ArticleMock);
+      const articles = await articleService.getAllArticles();
+
+      expect(ArticleMock.find.calledOnce).toBeTruthy();
+      expect(articles).toBeDefined();
+    });
+
+    it("should return all datas found", async () => {
+      const ArticleMock = {
+        find: sinon.fake.returns(true),
+      };
+
+      let articleService = new ArticleService(ArticleMock);
+      const articles = await articleService.getAllArticles();
+
+      expect(ArticleMock.find.calledOnce).toBeTruthy();
+      expect(articles).toBeDefined();
+    });
+  });
 });

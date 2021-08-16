@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1629041904692" clover="3.2.0">
-  <project timestamp="1629041904693" name="All files">
-    <metrics statements="314" coveredstatements="302" conditionals="79" coveredconditionals="67" methods="36" coveredmethods="35" elements="429" coveredelements="404" complexity="0" loc="314" ncloc="314" packages="7" files="24" classes="24"/>
+<coverage generated="1629101942354" clover="3.2.0">
+  <project timestamp="1629101942354" name="All files">
+    <metrics statements="323" coveredstatements="309" conditionals="79" coveredconditionals="67" methods="38" coveredmethods="37" elements="440" coveredelements="413" complexity="0" loc="323" ncloc="323" packages="7" files="24" classes="24"/>
     <package name="article">
-      <metrics statements="57" coveredstatements="55" conditionals="14" coveredconditionals="13" methods="4" coveredmethods="4"/>
+      <metrics statements="66" coveredstatements="62" conditionals="14" coveredconditionals="13" methods="6" coveredmethods="6"/>
       <file name="article.constraints.js" path="/home/sushila/projects/authentication-node/src/article/article.constraints.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="10" count="4" type="stmt"/>
       </file>
       <file name="article.controller.js" path="/home/sushila/projects/authentication-node/src/article/article.controller.js">
-        <metrics statements="14" coveredstatements="13" conditionals="4" coveredconditionals="3" methods="1" coveredmethods="1"/>
+        <metrics statements="18" coveredstatements="16" conditionals="4" coveredconditionals="3" methods="2" coveredmethods="2"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="4" count="3" type="stmt"/>
@@ -24,7 +24,11 @@
         <line num="22" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
-        <line num="39" count="3" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="49" count="3" type="stmt"/>
       </file>
       <file name="article.model.js" path="/home/sushila/projects/authentication-node/src/article/article.model.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -36,21 +40,26 @@
         <line num="33" count="3" type="stmt"/>
       </file>
       <file name="article.route.js" path="/home/sushila/projects/authentication-node/src/article/article.route.js">
-        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
         <line num="5" count="3" type="stmt"/>
         <line num="11" count="3" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
       </file>
       <file name="article.service.js" path="/home/sushila/projects/authentication-node/src/article/article.service.js">
-        <metrics statements="6" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="3" count="4" type="stmt"/>
+        <metrics statements="10" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <line num="3" count="6" type="stmt"/>
         <line num="7" count="2" type="stmt"/>
         <line num="8" count="2" type="stmt"/>
         <line num="9" count="2" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
-        <line num="16" count="4" type="stmt"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
       </file>
       <file name="article.validation.js" path="/home/sushila/projects/authentication-node/src/article/article.validation.js">
         <metrics statements="21" coveredstatements="21" conditionals="10" coveredconditionals="10" methods="1" coveredmethods="1"/>
