@@ -61,6 +61,42 @@ const ArticleValidation = {
 
     return { errors };
   },
+
+  updateArticle: (id, fields) => {
+    let errors = [];
+    if (!ValidationCheck.validId(id)) {
+      const error = {
+        message: articleValidationMsg.ID_NOT_VALID,
+      };
+      errors = [...errors, error];
+    }
+
+    for (const field in fields) {
+      if (!ValidationCheck.validString(fields[field])) {
+        let error = new Error();
+        error.message = `${field} is required`;
+        errors = [...errors, error];
+      }
+
+      if (field === "author") {
+        if (!ValidationCheck.validId(fields[field])) {
+          let error = new Error();
+          error.messagemessage = articleValidationMsg.AUTHOR_NOT_VALID;
+          errors = [...errors, error];
+        }
+      }
+
+      if (field === "publishDate") {
+        if (!ValidationCheck.validDate(fields[field])) {
+          let error = new Error();
+          error.message = articleValidationMsg.NOT_VALID_DATE;
+          erroerrors = [...errors, error];
+        }
+      }
+    }
+
+    return { errors };
+  },
 };
 
 module.exports = ArticleValidation;

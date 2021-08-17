@@ -18,4 +18,6 @@ articleRouter.delete(
   ArticleController.deleteArticle
 );
 
+articleRouter.post("/update/:id", ArticleController.updateArticle);
+
 module.exports = articleRouter;

@@ -1,3 +1,4 @@
+const articleValidationMsg = require("./article.constraints");
 const ArticleValidation = require("./article.validation");
 const ArticleService = require("./index");
 
@@ -77,6 +78,32 @@ const ArticleController = {
         return res.status(400).json(error);
       }
       return res.status(400).json({ message: "server error" });
+    }
+  },
+
+  updateArticle: async (req, res) => {
+    const { id } = req.params;
+    const fields = req.body;
+
+    const { errors } = await ArticleValidation.updateArticle(id, fields);
+
+    if (errors.length > 0) {
+      return res.status(400).json({
+        type: "ValidationError",
+        errors,
+      });
+    }
+
+    try {
+      const updatedArticle = await ArticleService.updateArticle(id, {
+        ...fields,
+      });
+
+      return res
+        .status(200)
+        .json({ message: "Article successfully update", updatedArticle });
+    } catch (error) {
+      return res.status(400).json({ message: "error while updating article" });
     }
   },
 };

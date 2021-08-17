@@ -46,6 +46,16 @@ class ArticleService {
       throw error;
     }
   }
+
+  async updateArticle(id, data) {
+    try {
+      await this.Article.updateOne({ _id: id }, { ...data });
+      const updatedArticle = this.Article.findOne({ _id: id });
+      return updatedArticle;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = ArticleService;

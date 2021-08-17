@@ -6,6 +6,8 @@ const articleValidationMsg = {
   PUBLISHED_DATE_REQUIRED: "Published date is required",
   NOT_VALID_DATE: "Not a valid date.",
   ID_NOT_VALID: "Article Id is not valid.",
+  CANNOT_UPDATE: "Data error for update.",
+  AUTHOR_NOT_VALID: "Author not valid. Please use author id.",
 };
 
 module.exports = articleValidationMsg;
