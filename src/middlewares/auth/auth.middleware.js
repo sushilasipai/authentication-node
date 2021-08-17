@@ -10,7 +10,7 @@ const AuthMiddleware = {
       if (!user) {
         return res.status(401).json({
           type: "AuthenticationError",
-          message: "Something went wrong!!",
+          message: "Invalid Token.",
         });
       }
       req.user = user;
@@ -23,7 +23,7 @@ const AuthMiddleware = {
       }
       return res.status(401).json({
         type: "AuthenticationError",
-        message: "Something went wrong!!",
+        message: "Invalid Token.",
       });
     }
   },

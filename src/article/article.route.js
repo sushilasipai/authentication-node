@@ -12,4 +12,10 @@ articleRouter.get("/", ArticleController.getAllArticles);
 
 articleRouter.get("/:id", ArticleController.getArticleById);
 
+articleRouter.delete(
+  "/:id",
+  AuthMiddleware.checkAuth,
+  ArticleController.deleteArticle
+);
+
 module.exports = articleRouter;

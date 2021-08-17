@@ -355,7 +355,7 @@ describe("user integration test", () => {
     it("Should throw Authentication error if token is not passed", async () => {
       const response = await request(server).get("/api/user/me").expect(401);
       expect(response.body.type).toBe("AuthenticationError");
-      expect(response.body.message).toBe("Something went wrong!!");
+      expect(response.body.message).toBe("Invalid Token.");
     });
 
     it("Should throw Authentication error if wrong token is passed", async () => {
@@ -364,7 +364,7 @@ describe("user integration test", () => {
         .set("Authorization", "Bearer fsdfdsvdsffsd")
         .expect(401);
       expect(response.body.type).toBe("AuthenticationError");
-      expect(response.body.message).toBe("Something went wrong!!");
+      expect(response.body.message).toBe("Invalid Token.");
     });
 
     it("Should throw no error if correct token is passed", async () => {

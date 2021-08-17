@@ -42,7 +42,7 @@ const ArticleValidation = {
     return { errors };
   },
 
-  getArticleById: (id) => {
+  validateId: (id) => {
     let errors = [];
 
     if (!ValidationCheck.validString(id)) {

@@ -8,6 +8,8 @@ const User = require("../../user/user.model");
 const mongoose = require("mongoose");
 const TokenGenerator = require("../../utils/token");
 const Article = require("../article.model");
+const articleValidationMsg = require("../article.constraints");
+
 describe("article integration test", () => {
   let server;
   let jwt;
@@ -119,7 +121,7 @@ describe("article integration test", () => {
       expect(response.body).toHaveProperty("article", null);
     });
 
-    it("should return article with that id if  found", async () => {
+    it("should return article with that id if found", async () => {
       const article = {
         title: faker.lorem.text(),
         shortDescription: faker.lorem.sentence(),
@@ -145,6 +147,52 @@ describe("article integration test", () => {
       expect(response.body.article).toHaveProperty("publishDate");
       expect(response.body.article).toHaveProperty("publishDate");
       expect(response.body.article).toHaveProperty("_id");
+    });
+  });
+
+  describe("delete article test", () => {
+    afterAll(async () => {
+      await Article.deleteMany({});
+    });
+    it("should return authentication error if token not passed", async () => {
+      const response = await request(server)
+        .delete("/api/article/1")
+        .expect(401);
+
+      expect(response.body).toHaveProperty("type", "AuthenticationError");
+      expect(response.body).toHaveProperty("message", "Invalid Token.");
+    });
+
+    it("should return id not valid error if id is invalid", async () => {
+      const response = await request(server)
+        .delete("/api/article/1")
+        .set("Authorization", jwt)
+        .expect(400);
+      expect(response.body).toHaveProperty("type", "ValidationError");
+      expect(response.body.errors[0]).toHaveProperty(
+        "message",
+        articleValidationMsg.ID_NOT_VALID
+      );
+    });
+
+    it("should delete article if article with given id found", async () => {
+      const article = {
+        title: faker.lorem.text(),
+        shortDescription: faker.lorem.sentence(),
+        body: faker.lorem.paragraphs(),
+        author: mongoose.Types.ObjectId(),
+        publishDate: new Date(),
+      };
+      const createdArticle = await Article.create({ ...article });
+      const response = await request(server)
+        .delete(`/api/article/${createdArticle._id}`)
+        .set("Authorization", jwt)
+        .expect(200);
+      expect(response.body).toHaveProperty("article");
+      expect(response.body).toHaveProperty(
+        "message",
+        "Article deleted successfully."
+      );
     });
   });
 });

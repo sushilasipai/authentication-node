@@ -70,9 +70,9 @@ describe("article validation test", () => {
     });
   });
 
-  describe("get article by id", () => {
+  describe("validate id", () => {
     it("should return invalid id error if id is not passed", (done) => {
-      const { errors } = ArticleValidation.getArticleById("");
+      const { errors } = ArticleValidation.validateId("");
       expect(errors.length).toBe(2);
       expect(errors[0].message).toBe(articleValidationMsg.ID_NOT_VALID);
       expect(errors[1].message).toBe(articleValidationMsg.ID_NOT_VALID);
@@ -80,7 +80,7 @@ describe("article validation test", () => {
     });
 
     it("should return invalid id error if invalid id is passed", (done) => {
-      const { errors } = ArticleValidation.getArticleById("dsfdfs");
+      const { errors } = ArticleValidation.validateId("dsfdfs");
       expect(errors.length).toBe(1);
       expect(errors[0].message).toBe(articleValidationMsg.ID_NOT_VALID);
       done();
@@ -88,7 +88,7 @@ describe("article validation test", () => {
 
     it("should return invalid id error if invalid id is passed", (done) => {
       const id = mongoose.Types.ObjectId();
-      const { errors } = ArticleValidation.getArticleById(id);
+      const { errors } = ArticleValidation.validateId(id);
       expect(errors.length).toBe(0);
       done();
     });

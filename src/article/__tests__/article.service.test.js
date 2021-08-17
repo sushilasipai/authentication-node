@@ -1,4 +1,5 @@
 const sinon = require("sinon");
+const articleValidationMsg = require("../article.constraints");
 const ArticleService = require("../article.service");
 
 describe("article service test", () => {
@@ -66,6 +67,34 @@ describe("article service test", () => {
       let articleService = new ArticleService(ArticleMock);
       const article = await articleService.getArticleById("123");
       expect(ArticleMock.findOne.calledOnce).toBeTruthy();
+    });
+  });
+
+  describe("delete article test", () => {
+    it("should return invalid id error if article with given id is not found", async () => {
+      const ArticleMock = {
+        findOneAndDelete: sinon.fake.returns(null),
+      };
+
+      let articleService = new ArticleService(ArticleMock);
+      try {
+        const article = await articleService.deleteArticle("");
+      } catch (error) {
+        expect(error.type).toBe("ValidationError");
+        expect(error.errors[0].message).toBe(articleValidationMsg.ID_NOT_VALID);
+      }
+      expect(ArticleMock.findOneAndDelete.calledOnce).toBeTruthy();
+    });
+
+    it("should delete article if article with id found", async () => {
+      const ArticleMock = {
+        findOneAndDelete: sinon.fake.returns({ title: "ABC" }),
+      };
+
+      let articleService = new ArticleService(ArticleMock);
+      const article = await articleService.deleteArticle("111");
+      expect(ArticleMock.findOneAndDelete.calledOnce).toBeTruthy();
+      expect(article).toBeDefined();
     });
   });
 });

@@ -31,6 +31,21 @@ class ArticleService {
       throw error;
     }
   }
+
+  async deleteArticle(id) {
+    try {
+      let article = await this.Article.findOneAndDelete({ _id: id });
+      if (!article) {
+        let error = new Error();
+        error.type = "ValidationError";
+        error.errors = [{ message: ValidationMessage.ID_NOT_VALID }];
+        throw error;
+      }
+      return article;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = ArticleService;
