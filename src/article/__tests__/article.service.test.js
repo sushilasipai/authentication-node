@@ -97,4 +97,36 @@ describe("article service test", () => {
       expect(article).toBeDefined();
     });
   });
+
+  describe("update article test", () => {
+    it("should return null if invalid id is passed", async () => {
+      const ArticleMock = {
+        updateOne: sinon.fake.returns(null),
+        findOne: sinon.fake.returns(null),
+      };
+
+      let articleService = new ArticleService(ArticleMock);
+      const response = await articleService.updateArticle("", {
+        title: "abcd",
+      });
+      expect(ArticleMock.updateOne.calledOnce).toBeTruthy();
+      expect(ArticleMock.findOne.calledOnce).toBeTruthy();
+      expect(response).toBe(null);
+    });
+
+    it("should return updated article if id is valid", async () => {
+      const ArticleMock = {
+        updateOne: sinon.spy(),
+        findOne: sinon.fake.returns({ title: "Abc" }),
+      };
+      const fields = { title: "12342" };
+
+      let articleService = new ArticleService(ArticleMock);
+      const response = await articleService.updateArticle("123", fields);
+
+      expect(ArticleMock.updateOne.calledOnce).toBeTruthy();
+      expect(ArticleMock.findOne.calledOnce).toBeTruthy();
+      expect(response).toBeDefined();
+    });
+  });
 });

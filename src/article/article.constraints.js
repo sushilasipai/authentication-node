@@ -8,6 +8,7 @@ const articleValidationMsg = {
   ID_NOT_VALID: "Article Id is not valid.",
   CANNOT_UPDATE: "Data error for update.",
   AUTHOR_NOT_VALID: "Author not valid. Please use author id.",
+  NOT_AUTHORIZED: "User not authorized to perform this operation",
 };
 
 module.exports = articleValidationMsg;

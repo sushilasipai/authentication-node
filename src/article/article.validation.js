@@ -81,7 +81,7 @@ const ArticleValidation = {
       if (field === "author") {
         if (!ValidationCheck.validId(fields[field])) {
           let error = new Error();
-          error.messagemessage = articleValidationMsg.AUTHOR_NOT_VALID;
+          error.message = articleValidationMsg.AUTHOR_NOT_VALID;
           errors = [...errors, error];
         }
       }
@@ -90,7 +90,7 @@ const ArticleValidation = {
         if (!ValidationCheck.validDate(fields[field])) {
           let error = new Error();
           error.message = articleValidationMsg.NOT_VALID_DATE;
-          erroerrors = [...errors, error];
+          errors = [...errors, error];
         }
       }
     }

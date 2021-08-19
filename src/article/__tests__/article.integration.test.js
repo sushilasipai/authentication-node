@@ -13,12 +13,12 @@ const articleValidationMsg = require("../article.constraints");
 describe("article integration test", () => {
   let server;
   let jwt;
-
+  let user;
   beforeAll(async () => {
     await db.connectToDB(envVars.mongo_uri_test);
     server = await app.listen(3001);
 
-    let user = {
+    user = {
       email: "sipaisushila@gmail.com",
       password: await Crypt.hashPassword(faker.internet.password()),
       createdAt: new Date(),
@@ -175,12 +175,33 @@ describe("article integration test", () => {
       );
     });
 
-    it("should delete article if article with given id found", async () => {
+    it("should throw authorization error while deleting other authors article", async () => {
       const article = {
         title: faker.lorem.text(),
         shortDescription: faker.lorem.sentence(),
         body: faker.lorem.paragraphs(),
         author: mongoose.Types.ObjectId(),
+        publishDate: new Date(),
+      };
+      const createdArticle = await Article.create({ ...article });
+
+      const response = await request(server)
+        .delete(`/api/article/${createdArticle._id}`)
+        .set("Authorization", jwt)
+        .expect(401);
+      expect(response.body).toHaveProperty("type", "AuthorizationError");
+      expect(response.body).toHaveProperty(
+        "message",
+        articleValidationMsg.NOT_AUTHORIZED
+      );
+    });
+
+    it("should delete article if delete article with given id found and delete by author", async () => {
+      const article = {
+        title: faker.lorem.text(),
+        shortDescription: faker.lorem.sentence(),
+        body: faker.lorem.paragraphs(),
+        author: mongoose.Types.ObjectId(user._id),
         publishDate: new Date(),
       };
       const createdArticle = await Article.create({ ...article });
@@ -193,6 +214,85 @@ describe("article integration test", () => {
         "message",
         "Article deleted successfully."
       );
+    });
+  });
+
+  describe("update article test", () => {
+    afterAll(async () => {
+      await Article.deleteMany({});
+    });
+    it("should return authentication error if invlaid token passed", async () => {
+      const response = await request(server)
+        .post("/api/article/update/122")
+        .send({})
+        .set("Authorization", "dsfasdfsdfdsf")
+        .expect(401);
+
+      expect(response.body).toHaveProperty("type", "AuthenticationError");
+      expect(response.body).toHaveProperty("message", "Invalid Token.");
+    });
+
+    it("should throw authorization error while updating other authors article", async () => {
+      const article = {
+        title: faker.lorem.text(),
+        shortDescription: faker.lorem.sentence(),
+        body: faker.lorem.paragraphs(),
+        author: mongoose.Types.ObjectId(),
+        publishDate: new Date(),
+      };
+      const createdArticle = await Article.create({ ...article });
+
+      const response = await request(server)
+        .post(`/api/article/update/${createdArticle._id}`)
+        .send({})
+        .set("Authorization", jwt)
+        .expect(401);
+      expect(response.body).toHaveProperty("type", "AuthorizationError");
+      expect(response.body).toHaveProperty(
+        "message",
+        articleValidationMsg.NOT_AUTHORIZED
+      );
+    });
+
+    it("should throw id validation error if invalid id is passed", async () => {
+      const response = await await request(server)
+        .post("/api/article/update/123")
+        .send({})
+        .set("Authorization", jwt)
+        .expect(400);
+
+      expect(response.body).toHaveProperty("type", "ValidationError");
+      expect(response.body.errors[0]).toHaveProperty(
+        "message",
+        articleValidationMsg.ID_NOT_VALID
+      );
+    });
+
+    it("should return updated article if valid id and token is passed", async () => {
+      const article = {
+        title: faker.lorem.text(),
+        shortDescription: faker.lorem.sentence(),
+        body: faker.lorem.paragraphs(),
+        author: mongoose.Types.ObjectId(user._id),
+        publishDate: new Date(),
+      };
+      const createdArticle = await Article.create({ ...article });
+
+      const fields = {
+        title: "new title",
+        shortDescription: "new short desc",
+      };
+      const response = await await request(server)
+        .post("/api/article/update/" + createdArticle._id)
+        .send(fields)
+        .set("Authorization", jwt)
+        .expect(200);
+
+      expect(response.body.updatedArticle).toHaveProperty("title");
+      expect(response.body.updatedArticle).toHaveProperty("shortDescription");
+      expect(response.body.updatedArticle).toHaveProperty("body");
+      expect(response.body.updatedArticle).toHaveProperty("author");
+      expect(response.body.updatedArticle).toHaveProperty("publishDate");
     });
   });
 });
