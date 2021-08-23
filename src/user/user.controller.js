@@ -19,6 +19,14 @@ const UserController = {
       user,
     });
   },
+  getAllUsers: async (req, res) => {
+    try {
+      const users = await UserService.getAllUsers();
+      return res.status(200).json({ users });
+    } catch (error) {
+      return res.status(500).json({ message: "server error" });
+    }
+  },
   register: async (req, res) => {
     const { email, password, firstName, middleName, lastName } = req.body;
     const { errors } = registrationValidation({ email, password });

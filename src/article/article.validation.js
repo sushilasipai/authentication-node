@@ -87,7 +87,7 @@ const ArticleValidation = {
       }
 
       if (field === "publishDate") {
-        if (!ValidationCheck.validDate(fields[field])) {
+        if (!ValidationCheck.validDate(new Date(fields[field]))) {
           let error = new Error();
           error.message = articleValidationMsg.NOT_VALID_DATE;
           errors = [...errors, error];

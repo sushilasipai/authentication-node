@@ -238,7 +238,7 @@ describe("article integration test", () => {
         shortDescription: faker.lorem.sentence(),
         body: faker.lorem.paragraphs(),
         author: mongoose.Types.ObjectId(),
-        publishDate: new Date(),
+        publishDate: new Date().toString(),
       };
       const createdArticle = await Article.create({ ...article });
 
@@ -274,7 +274,7 @@ describe("article integration test", () => {
         shortDescription: faker.lorem.sentence(),
         body: faker.lorem.paragraphs(),
         author: mongoose.Types.ObjectId(user._id),
-        publishDate: new Date(),
+        publishDate: new Date().toString(),
       };
       const createdArticle = await Article.create({ ...article });
 

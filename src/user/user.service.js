@@ -35,6 +35,15 @@ class UserService {
     }
   }
 
+  async getAllUsers() {
+    try {
+      const users = await this.UserModel.find({}, { password: 0 });
+      return users;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async loginUser({ email, password }) {
     try {
       const user = await this.UserModel.findOne({ email });
@@ -74,7 +83,7 @@ class UserService {
 
   async forgotPassword(email) {
     try {
-      const user = await this.UserModel.findOne({ email });
+      const user = await this.UserModel.findOne({ email }, { password: 0 });
 
       if (!user) {
         let error = new Error();
@@ -96,7 +105,9 @@ class UserService {
   async resetPassword({ token, newPassword }) {
     const hashedNewPassword = await this.Crypt.hashPassword(newPassword);
     try {
-      const user = await this.UserModel.findOne({ passwordResetToken: token });
+      const user = await this.UserModel.findOne({
+        passwordResetToken: token,
+      });
 
       if (!user) {
         let error = new Error();

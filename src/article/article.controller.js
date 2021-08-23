@@ -84,7 +84,6 @@ const ArticleController = {
   updateArticle: async (req, res) => {
     const { id } = req.params;
     const fields = req.body;
-
     const { errors } = await ArticleValidation.updateArticle(id, fields);
 
     if (errors.length > 0) {
