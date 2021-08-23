@@ -60,6 +60,7 @@ class UserService {
       return {
         token,
         user: {
+          _id: user.id,
           email: user.email,
           firstName: user.firstName ?? "",
           middleName: user.middleName ?? "",
