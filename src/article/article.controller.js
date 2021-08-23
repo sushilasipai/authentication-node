@@ -5,7 +5,9 @@ const ArticleService = require("./index");
 const ArticleController = {
   createArticle: async (req, res) => {
     let { title, shortDescription, body, publishDate } = req.body;
-    publishDate = new Date(publishDate) ?? new Date();
+   
+    publishDate = publishDate ? new Date(publishDate): new Date();
+     console.log(publishDate);
     const author = req.user._id;
 
     const { errors } = ArticleValidation.createArticle({
